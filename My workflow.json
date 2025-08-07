@@ -1,0 +1,578 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4773078c-f178-4f31-b54b-a8e867b7c840",
+              "leftValue": "...",
+              "rightValue": "...",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -112,
+        32
+      ],
+      "id": "f66db175-be6c-4b44-820d-5d1dc983fc3a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        1216,
+        32
+      ],
+      "id": "63a8a1d4-ac39-4468-835a-f5cd6753c300",
+      "name": "Remove Duplicates"
+    },
+    {
+      "parameters": {
+        "chatId": "...",
+        "text": "...",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1408,
+        -112
+      ],
+      "id": "25cf08df-8059-4a4e-9b49-a5ac0708f550",
+      "name": "Send a text message",
+      "webhookId": "7cf939c7-8291-4b33-9ffc-ccaae9125aee",
+      "credentials": {
+        "telegramApi": {
+          "id": "XwYdbGCbwmI7vszE",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "...",
+        "toEmail": "...",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1408,
+        144
+      ],
+      "id": "2746025e-1d3b-42aa-8474-fe64cab8b161",
+      "name": "Send email",
+      "webhookId": "e7cdc80f-e31e-425e-aeb4-630d77548acf",
+      "credentials": {
+        "smtp": {
+          "id": "RBFDS8O20jwalTBg",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "...",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        -80
+      ],
+      "id": "2592b915-4798-4006-8ce4-7cf1af495c68",
+      "name": "Finance Analysis"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": ".",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        144
+      ],
+      "id": "3ea29e30-c453-4423-a1be-c7254e1d3f42",
+      "name": "Health Analysis"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        128,
+        -256
+      ],
+      "id": "0c1f2bf6-0f66-4e30-9ac7-2e51cab55e52",
+      "name": "Agent Finance",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "pCWYtSOMVeNAxPjS",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        144,
+        320
+      ],
+      "id": "423b3dae-3aeb-46a9-8bab-fdfa0336f67f",
+      "name": "Agent Health",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "pCWYtSOMVeNAxPjS",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "12222",
+        "contextWindowLength": 12
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        272,
+        -256
+      ],
+      "id": "17dd1720-d6f6-4dcd-a2cd-59e3bc8ba9f9",
+      "name": "Local Memory Finance"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "12222",
+        "contextWindowLength": 12
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        320
+      ],
+      "id": "6d358198-7a1e-45b7-80b6-9dbe837e1088",
+      "name": "Local Memory Health"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Document', ``, 'string') }}",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Sheet', ``, 'string') }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        432,
+        -256
+      ],
+      "id": "2bb96c09-71b1-4597-8da1-f8e934438b42",
+      "name": "Data - Save for Finance",
+      "credentials": {
+        "googleApi": {
+          "id": "E14hRahvvtprlKSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Document', ``, 'string') }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Sheet', ``, 'string') }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        432,
+        320
+      ],
+      "id": "d7c40a47-403c-45e0-9954-71459189b4da",
+      "name": "Data - Save for Health",
+      "credentials": {
+        "googleApi": {
+          "id": "E14hRahvvtprlKSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "markdownToHtml",
+        "markdown": "...",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        640,
+        -80
+      ],
+      "id": "36650f06-a148-4733-94c1-5d774802d575",
+      "name": "Finance Markdown"
+    },
+    {
+      "parameters": {
+        "mode": "markdownToHtml",
+        "markdown": "...",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        640,
+        144
+      ],
+      "id": "1f863212-52bf-4778-8f4f-7fcdbc1994f1",
+      "name": "Health Markdown"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "spreadsheet",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        848,
+        32
+      ],
+      "id": "75f244d5-5083-40ec-9ce6-b857eceb9175",
+      "name": "Save the analysis",
+      "credentials": {
+        "googleApi": {
+          "id": "E14hRahvvtprlKSZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "99450456-023a-4f20-8c6a-aefbd86498f4",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        32
+      ],
+      "id": "210e52a2-b780-4b66-90a4-1362a31df937",
+      "name": "Filter Among Them"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        16
+      ],
+      "id": "a81ded4b-f30a-489f-885f-99dcd9e9e8a4",
+      "name": "End"
+    },
+    {
+      "parameters": {
+        "path": "data/arduino",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        32
+      ],
+      "id": "a556ae64-7073-44c5-9853-9ed9af0e76e5",
+      "name": "Webhook for Arduino",
+      "webhookId": "9649e3ef-dce2-4fed-b477-3ede8d619852"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Finance Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Health Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        [
+          {
+            "node": "End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send email": {
+      "main": [
+        [
+          {
+            "node": "End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finance Analysis": {
+      "main": [
+        [
+          {
+            "node": "Finance Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Health Analysis": {
+      "main": [
+        [
+          {
+            "node": "Health Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Finance": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Finance Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent Health": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Health Analysis",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local Memory Finance": {
+      "ai_memory": [
+        [
+          {
+            "node": "Finance Analysis",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local Memory Health": {
+      "ai_memory": [
+        [
+          {
+            "node": "Health Analysis",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data - Save for Finance": {
+      "ai_tool": [
+        [
+          {
+            "node": "Finance Analysis",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data - Save for Health": {
+      "ai_tool": [
+        [
+          {
+            "node": "Health Analysis",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finance Markdown": {
+      "main": [
+        [
+          {
+            "node": "Save the analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Health Markdown": {
+      "main": [
+        [
+          {
+            "node": "Save the analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save the analysis": {
+      "main": [
+        [
+          {
+            "node": "Filter Among Them",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Among Them": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook for Arduino": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c071ac20-c17c-4477-ad83-8216e8a7689b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c1ebba7a0c5f22600900da8863ed6c0e4eccb7dcbf5585cab954f2d1a275ca8a"
+  },
+  "id": "DGQXgABIYX4bSkST",
+  "tags": []
+}
